@@ -104,3 +104,54 @@ La STFT est largement utilisée dans de nombreux domaines :
 ### Résumé
 
 La STFT est un outil fondamental pour l'analyse des signaux non stationnaires, c'est-à-dire les signaux dont les propriétés fréquentielles évoluent avec le temps. Elle permet de comprendre comment les différentes fréquences d'un signal se comportent au fil du temps, ce qui est essentiel dans de nombreuses applications pratiques comme la reconnaissance vocale, la musique, et l'analyse des signaux en général.
+
+
+### Mel Filterbank
+
+La **Mel Filterbank** est un ensemble de filtres utilisés pour transformer un spectrogramme en une représentation plus adaptée à la perception humaine du son. Elle est principalement utilisée dans le traitement du signal audio, notamment dans les domaines de la reconnaissance vocale, du traitement de la parole et de l'analyse audio.
+
+#### Principe de la Mel Scale
+
+Le système de filtres Mel est basé sur une échelle de fréquence appelée **échelle Mel**, qui est une échelle perceptuelle de fréquence qui imite la manière dont l'oreille humaine perçoit les sons. Sur l'échelle Mel, les fréquences plus basses sont espacées de manière plus large, tandis que les fréquences plus élevées sont plus rapprochées, ce qui correspond à la manière dont nous percevons les changements de fréquence.
+
+L'échelle Mel \( m(f) \) est définie par la relation suivante :
+
+$$
+m(f) = 2595 \cdot \log_{10} \left( 1 + \frac{f}{700} \right)
+$$
+
+Où :
+- \( f \) est la fréquence en Hz.
+- \( m(f) \) est la fréquence correspondante sur l'échelle Mel.
+
+Cette relation montre que les fréquences humaines sont perçues de manière logarithmique, ce qui signifie que nous distinguons mieux les basses fréquences et que les hautes fréquences sont perçues avec moins de précision.
+
+#### Fonctionnement de la Mel Filterbank
+
+Une **Mel Filterbank** est une série de filtres (souvent des filtres triangulaires) qui sont espacés sur l'échelle Mel. Chaque filtre de la banque de filtres permet de capturer une plage de fréquences spécifiques, avec une résolution plus fine dans les basses fréquences et une résolution plus grossière dans les hautes fréquences, conformément à la manière dont nous percevons le son.
+
+Le processus de filtrage peut être décrit comme suit :
+1. **Spectrogramme** : On commence par appliquer une transformée de Fourier ou une transformée de Fourier courte (STFT) sur un signal audio pour obtenir un spectrogramme, qui est une représentation du signal en fonction du temps et de la fréquence.
+2. **Appliquer la Mel Filterbank** : Le spectrogramme est ensuite multiplié par la Mel Filterbank. Chaque filtre capture l'énergie dans une plage de fréquences spécifique sur l'échelle Mel.
+3. **Logarithme** : Une fois que l'énergie de chaque bande Mel a été calculée, on applique souvent un logarithme à ces valeurs pour simuler la réponse non linéaire de l'oreille humaine aux variations d'intensité sonore.
+
+Cette représentation est plus adaptée à la reconnaissance et à l'analyse des signaux sonores, car elle est plus proche de la manière dont le système auditif humain perçoit le son.
+
+#### Paramètres d'une Mel Filterbank
+
+- **Nombre de filtres** : Le nombre de filtres dans la banque de filtres Mel est un paramètre important. Plus le nombre de filtres est élevé, plus la représentation sera précise. Dans la pratique, on utilise souvent entre 20 et 40 filtres Mel.
+- **Plage de fréquences** : Les filtres couvrent généralement une plage de fréquences qui va de 0 Hz (ou parfois de quelques Hz au minimum) jusqu'à la fréquence de Nyquist, c'est-à-dire la moitié de la fréquence d'échantillonnage du signal audio.
+
+#### Calcul des Coefficients Mel-Frequency Cepstral Coefficients (MFCC)
+
+Les **Mel-Frequency Cepstral Coefficients (MFCC)** sont un ensemble de caractéristiques largement utilisées dans la reconnaissance vocale. Elles sont obtenues en appliquant une Mel Filterbank au spectrogramme, puis en calculant la transformée en cosinus discrète (DCT) des coefficients Mel pour obtenir des caractéristiques compactes. Les MFCC sont souvent utilisés dans les systèmes de reconnaissance vocale pour représenter la texture de la parole.
+
+#### Applications de la Mel Filterbank
+
+- **Reconnaissance vocale** : La Mel Filterbank est couramment utilisée pour extraire des caractéristiques audio pertinentes pour les systèmes de reconnaissance de la parole. Les filtres Mel simulent la manière dont l'oreille humaine perçoit le son, ce qui les rend adaptés pour la reconnaissance vocale.
+- **Analyse musicale** : Les banques de filtres Mel sont également utilisées dans l'analyse de la musique, où elles aident à extraire des caractéristiques du timbre musical ou de l'harmonie.
+- **Compression audio** : Dans les techniques de compression audio comme MP3, des méthodes similaires à la Mel Filterbank sont utilisées pour extraire des caractéristiques du signal et réduire la quantité de données nécessaires pour représenter le signal.
+
+#### Résumé
+
+La Mel Filterbank est un outil puissant pour transformer un spectrogramme en une représentation perceptuellement plus significative du son. En simulant la façon dont l'oreille humaine perçoit les sons, elle permet de rendre les systèmes de traitement du signal audio plus efficaces et plus adaptés aux applications comme la reconnaissance vocale, l'analyse musicale et la compression audio.
